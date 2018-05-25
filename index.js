@@ -1,8 +1,11 @@
-var title = $('#title-input').val();
-var body = $('#body-input').val();
+var $titleInput = $('#title-input');
+var $bodyInput = $('#body-input');
+var $saveButton = $('.save-button');
 var numCards = 0;
 var qualityVariable = "swill";
 
+$titleInput.on('keyup', toggleButton)
+$saveButton.on('click', makeIdea);
 var newCard = function(id , title , body , quality) {
     return '<div id="' + id + '"class="card-container"><h2 class="title-of-card">'  
             + title +  '</h2>'
@@ -17,12 +20,11 @@ var newCard = function(id , title , body , quality) {
 };
 
 function cardObject() {
-    return {
-        title: $('#title-input').val(),
-        body: $('#body-input').val(),
-        quality: qualityVariable
-    };
-}
+        var titleInput = $title-input.val();
+        var bodyInput = $body-input.val();
+        var quality =  qualityVariable.val();
+    }
+
 
 $.each(localStorage, function(key) {
     var cardData = JSON.parse(this);
