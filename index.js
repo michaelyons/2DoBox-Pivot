@@ -43,17 +43,21 @@ function toggleSaveDisabled() {
     }
   }
 
-function newCard(id , title , body , quality) {
-    ideaList.prepend('<div id="' + id + '"class="card-container"><h2 class="title-of-card">'  
-            + title +  '</h2>'
-            + '<button class="delete-button"></button>'
-            +'<p class="body-of-card">'
-            + body + '</p>'
-            + '<button class="upvote"></button>' 
-            + '<button class="downvote"></button>' 
-            + '<p class="quality">' + 'quality:' + '<span class="qualityVariable">' + quality + '</span>' + '</p>'
-            + '<hr>' 
-            + '</div>');
+function newCard() {
+    ideaList.prepend(` <div aria-label="ideas displayed here" id=${Date.now()} class="entire-card">
+    <aside class="title-text">
+      <h2 class="idea"> ${titleInput.val()}</h2>
+      <button class="delete-button"></button>
+    </aside>
+    <aside>
+      <p class="light-text">${bodyInput.val()}</p>
+    </aside>
+    <aside class="footer-text">
+        <button class="upvote icon"></button>
+        <button class="downvote icon"></button>
+        <p class="quality-text">quality: ${qualityVariable}</p>
+    </aside>
+  </div>`);
     clearInputs();
 };
 
