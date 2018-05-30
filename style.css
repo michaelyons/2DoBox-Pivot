@@ -198,6 +198,9 @@ button {
 
 .marked-complete {
     margin-left: 4rem;
+    color: #939598;
+    font-family: 'Open Sans', sans-serif;
+    /* margin: 0; */
 }
 
 .gray-card {
@@ -212,6 +215,19 @@ button {
 
     #search-input {
         border: solid #999 1px;
+    }
+}
+
+@media(max-width: 540px){
+    .footer-text {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .marked-completed {
+        margin: 0;
     }
 }
 
