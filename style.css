@@ -14,7 +14,7 @@ body {
 }
 
 .top-box {
-    background-color: #e5f3f2;
+    background-color: #8fc7ec;
     box-sizing: border-box;
     height: 300px;
     margin: 0;
@@ -55,7 +55,7 @@ h1{
 }
 
 .save-btn {
-    background-color: #00a79d;
+    background-color: ##8fc7ec;
     border: none;
     color: #fff;
     font-size: 120%;
@@ -80,10 +80,12 @@ input {
     margin: auto;
     position: relative;
     width: 45%;
+    border-bottom:
 }
 
 .card {
     background-color: #ffffff;
+    border-bottom: 0.15rem solid rgb(195, 197, 204);
     height: auto;
     margin: auto;
     width: 45%;
@@ -106,6 +108,7 @@ h2 {
 p {
     color: #939598;
     font-family: 'Open Sans', sans-serif;
+    margin: 0;
 }
 
 .body-of-card{
@@ -153,8 +156,9 @@ button {
 .delete-button {
     background-image: url(./images/delete.svg);
     background-size: cover;
+    float: right;
     height: 20px;
-    position: absolute;
+    margin: 5%;
     right: 10px;
     top: 15px;
     width: 20px;
@@ -167,8 +171,25 @@ button {
     width: 20px;
 }
 
+
+.footer-text {
+    display: flex;
+    margin: 5% 0;
+}
+
+.light-text {
+    height: 5rem;
+    margin: 0 0 20px 0;
+    overflow-wrap: break-word;
+    overflow: scroll;
+}
+
+.icon {
+    margin: 0 10px;
+
 .gray-card {
     background-color: grey;
+
 }
 
 @media(max-width: 640px){

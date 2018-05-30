@@ -37,6 +37,7 @@ function toggleSaveDisabled() {
     }
   }
 
+
 function newCard(ideaObject) {
   var grayCard = ideaObject.completed ? "gray-card" : null;
   $('.card-list').prepend(` <div aria-label="ideas displayed here" id=${ideaObject.id} class="entire-card ${grayCard}">
