@@ -49,7 +49,7 @@ function toggleSaveDisabled() {
   }
 
 function newCard() {
-    ideaList.prepend(` <div aria-label="ideas displayed here" id=${Date.now()} class="entire-card">
+    ideaList.prepend(` <div aria-label="ideas displayed here" id=${Date.now()} class="card entire-card">
     <aside class="title-text">
       <h2 class="idea"> ${titleInput.val()}</h2>
       <button class="delete-button"></button>
