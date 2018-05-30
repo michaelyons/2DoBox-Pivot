@@ -1,25 +1,10 @@
-var titleInput = $('#title-input');
-var bodyInput = $('#body-input');
-var saveButton = $('.save-btn');
 var numCards = 0;
-var qualityVariable = "swill";
-var ideaList = $('.bottom-box');
-var ideasArray = [];
 
-$(document).ready(retrieveFromLocalStorage);
+$(document).ready(getFromLocalStorage);
 
-function retrieveFromLocalStorage() {
-    for (var i=0; i < localStorage.length; i++) {
-        var storageRetrieve = JSON.parse(localStorage.getItem(localStorage.key(i)));
-        ideasArray.push(storageRetrieve);
-    }
-    // getIdeasAndRender();
-}
-
-saveButton.on('click', function(e){
+$('.save-btn').on('click', function(e){
     e.preventDefault();
     ideaCreate();
-    newCard();
 })
 
 function removeIdea(target) {
@@ -27,20 +12,24 @@ function removeIdea(target) {
     localStorage.removeItem([target.parentNode.parentNode.id]);
   };
 
-titleInput.on('input', toggleSaveDisabled);
-bodyInput.on('input', toggleSaveDisabled);
-ideaList.on('click', function(e) {
+$('#title-input').on('input', toggleSaveDisabled);
+$('#body-input').on('input', toggleSaveDisabled);
+$('.card-list').on('click', function(e) {
     e.preventDefault();
   var buttonTarget = e.target.classList;
     if (buttonTarget.contains("upvote") || buttonTarget.contains("downvote")) {
       changeQuality(e.target);
     } else if (e.target.classList.contains("delete")) {
       removeIdea(e.target);
-    } 
+    } else if (e.target.classList.contains("marked-complete")) {
+      completeMarked(e.target);
+    }
   });
-    // getIdeasAndRender();
 
 function toggleSaveDisabled() {
+  var titleInput = $('#title-input');
+  var bodyInput = $('#body-input'); 
+  var saveButton = $('.save-btn');
     if (titleInput.val() === '' || bodyInput.val() === '') {
       saveButton.prop('disabled', true);
     } else {
@@ -48,25 +37,31 @@ function toggleSaveDisabled() {
     }
   }
 
-function newCard() {
-    ideaList.prepend(` <div aria-label="ideas displayed here" id=${Date.now()} class="card entire-card">
+
+function newCard(ideaObject) {
+  var grayCard = ideaObject.completed ? "gray-card" : null;
+  $('.card-list').prepend(` <div aria-label="ideas displayed here" id=${ideaObject.id} class="entire-card ${grayCard}">
     <aside class="title-text">
-      <h2 class="idea"> ${titleInput.val()}</h2>
+      <h2 class="idea"> ${ideaObject.title}</h2>
       <button class="delete-button"></button>
     </aside>
     <aside>
-      <p class="light-text">${bodyInput.val()}</p>
+      <p class="light-text">${ideaObject.body}</p>
     </aside>
     <aside class="footer-text">
         <button class="upvote icon"></button>
         <button class="downvote icon"></button>
-        <p class="quality-text">quality: ${qualityVariable}</p>
+        <p class="quality-text">quality: ${ideaObject.quality}</p>
+        <button class="marked-complete">Completed</button>
     </aside>
   </div>`);
     clearInputs();
 };
 
 function clearInputs() {
+  var titleInput = $('#title-input');
+  var bodyInput = $('#body-input');
+  var saveButton = $('.save-btn');
     titleInput.val('');
     bodyInput.val('');
     saveButton.prop('disabled', true);
@@ -74,52 +69,68 @@ function clearInputs() {
 
 function ideaCreate() {
     var ideaObject = {
-      title: titleInput.val(),
-      body: bodyInput.val(),
+      title: $('#title-input').val(),
+      body: $('#body-input').val(),
       id: Date.now(),
-      quality: "swill"
+      quality: "swill",
+      completed: false
     };
-    ideasArray.push(ideaObject);
-    localStorage.setItem([ideaObject.id], JSON.stringify(ideaObject));
+    newCard(ideaObject);
+    localStorage.setItem(ideaObject.id, JSON.stringify(ideaObject));
    };
 
-   function changeQuality(cardIdea) {
+function changeQuality(cardIdea) {
     var qualityValue = $(cardIdea).siblings()[1];
     var wordArray = ['swill', 'plausible', 'genius'];
     var cardId = $(cardIdea).parent().parent("div").attr("id");
-    
-    $(cardIdea).hasClass('upvote') ? numCards = numCards + 1 : numCards = numCards - 1;
-    numCards > 2 ? numCards = 2 : null;
-    numCards < 0 ? numCards = 0 : null;
-    
+    var numCards = updateCounter(cardIdea);
     $(qualityValue).text("quality: " + wordArray[numCards]);
     var parsedObject = JSON.parse(localStorage.getItem([cardId]));
     parsedObject.quality = wordArray[numCards];
     localStorage.setItem([parsedObject.id], JSON.stringify(parsedObject));
   };
+ 
+function updateCounter(cardIdea) {
+  var cardId = $(cardIdea).parent().parent("div").attr("id");
+    numCards = $(cardIdea).hasClass('upvote') ? numCards = numCards + 1 : numCards = numCards - 1;
+    numCards > 2 ? numCards = 2 : null;
+    numCards < 0 ? numCards = 0 : null;
+    return numCards;
+}
 
+function getFromLocalStorage() {
+  $.each(localStorage, function(key, value) {
+    isNaN(this) ?  $( ".card-idea" ).prepend(newCard(JSON.parse(this))) : null;
+})};
 
-// $.each(localStorage, function(key) {
-//     var cardData = JSON.parse(this);
-//     console.log(this);
-//     numCards++;
-//     $( ".bottom-box" ).prepend(newCard(key, cardData.title, cardData.body, cardData.quality));
-// });
-
-// var localStoreCard = function() {
-//     var cardString = JSON.stringify(cardObject());
-//     localStorage.setItem('card' + numCards  , cardString);
-// }
-
-
-var searchInput = $('#search-input');
-
-searchInput.on('keyup', function() {
-    
+$('#search-input').on('keyup', filterCards);
+function filterCards() {
     var searchTerm =$(this).val().toLowerCase();
     $('.entire-card').each(function(index, element){
     var text= $(element).text().toLowerCase();
     var match = !!text.match(searchTerm);
     $(element).toggle(match);
-    })
-  });
+  })};
+
+  $('.completed-task-btn').on('click', showOnlyCompleted);
+
+  function showOnlyCompleted() {
+    //irterate over the array rather than getting it that wierd way//
+    $.each(localStorage, function(key, value) {
+      isNaN(this) ? filterFromLocalStorage(this) : null;
+  })}
+
+  function filterFromLocalStorage(cardObject) {
+    console.log(cardObject);
+    cardObject.completed ? $( ".card-idea" ).prepend(newCard(JSON.parse(cardObject))) : null;
+  }
+
+  function completeMarked(target) {
+    var markedTarget = $(target).parent().parent()[0];
+    $(markedTarget).toggleClass("gray-card");
+    var completedCard = JSON.parse(localStorage.getItem(markedTarget.id));
+    // completedCard.completed = !completedCard.completed;
+    !completedCard.completed ? completedCard.completed = true : completedCard.completed = false;
+    localStorage.setItem(completedCard.id, JSON.stringify(completedCard));
+    console.log(completedCard.completed);
+  };

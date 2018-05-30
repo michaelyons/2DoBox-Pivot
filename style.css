@@ -171,6 +171,7 @@ button {
     width: 20px;
 }
 
+
 .footer-text {
     display: flex;
     margin: 5% 0;
@@ -185,6 +186,10 @@ button {
 
 .icon {
     margin: 0 10px;
+
+.gray-card {
+    background-color: grey;
+
 }
 
 @media(max-width: 640px){
