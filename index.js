@@ -39,17 +39,16 @@ function toggleSaveDisabled() {
 function newCard(ideaObject) {
   $('.card-list').prepend(` <div aria-label="ideas displayed here" id=${ideaObject.id} class="entire-card card">
     <aside class="title-text">
-      <h2 class="idea"> ${ideaObject.title}</h2>
+      <h2 class="idea" contenteditable> ${ideaObject.title}</h2>
       <button class="delete-button"></button>
     </aside>
     <aside>
-      <p class="light-text">${ideaObject.body}</p>
+      <p class="light-text" contenteditable>${ideaObject.body}</p>
     </aside>
     <aside class="footer-text">
         <button class="upvote icon"></button>
         <button class="downvote icon"></button>
         <p class="importance-text">importance: ${ideaObject.importance}</p>
-        <button class="marked-complete">Completed</button>
     </aside>
   </div>`);
     clearInputs();
@@ -70,7 +69,6 @@ function ideaCreate() {
       body: $('#body-input').val(),
       id: Date.now(),
       importance: "Normal",
-      completed: false
     };
     newCard(ideaObject);
     localStorage.setItem(ideaObject.id, JSON.stringify(ideaObject));
