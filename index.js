@@ -114,7 +114,7 @@ function filterCards() {
   $('.completed-task-btn').on('click', showOnlyCompleted);
 
   function showOnlyCompleted() {
-    //irterate ofver the array rather than getting that wierd ass way//
+    //irterate over the array rather than getting that wierd ass way//
     $.each(localStorage, function(key, value) {
       isNaN(this) ? filterFromLocalStorage(this) : null;
   })}
