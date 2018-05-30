@@ -21,8 +21,6 @@ $('.card-list').on('click', function(e) {
       changeImportance(e.target);
     } else if (e.target.classList.contains("delete-button")) {
       removeIdea(e.target);
-    } else if (e.target.classList.contains("marked-complete")) {
-      completeMarked(e.target);
     }
 });
 
@@ -39,8 +37,7 @@ function toggleSaveDisabled() {
 
 
 function newCard(ideaObject) {
-  var grayCard = ideaObject.completed ? "gray-card" : null;
-  $('.card-list').prepend(` <div aria-label="ideas displayed here" id=${ideaObject.id} class="entire-card card ${grayCard}">
+  $('.card-list').prepend(` <div aria-label="ideas displayed here" id=${ideaObject.id} class="entire-card card">
     <aside class="title-text">
       <h2 class="idea"> ${ideaObject.title}</h2>
       <button class="delete-button"></button>
@@ -111,26 +108,3 @@ function filterCards() {
     var match = !!text.match(searchTerm);
     $(element).toggle(match);
   })};
-
-  // $('.completed-task-btn').on('click', showOnlyCompleted);
-
-  // function showOnlyCompleted() {
-  //   //irterate over the array rather than getting it that wierd way//
-  //   $.each(localStorage, function(key, value) {
-  //     isNaN(this) ? filterFromLocalStorage(this) : null;
-  // })};
-
-  // function filterFromLocalStorage(cardObject) {
-  //   console.log(cardObject);
-  //   cardObject.completed ? $( ".card-idea" ).prepend(newCard(JSON.parse(cardObject))) : null;
-  // }
-
-  // function completeMarked(target) {
-  //   var markedTarget = $(target).parent().parent()[0];
-  //   $(markedTarget).toggleClass("gray-card");
-  //   var completedCard = JSON.parse(localStorage.getItem(markedTarget.id));
-  //   completedCard.completed = !completedCard.completed;
-  //   !completedCard.completed ? completedCard.completed = true : completedCard.completed = false;
-  //   localStorage.setItem(completedCard.id, JSON.stringify(completedCard));
-  //   console.log(completedCard.completed);
-  // }
