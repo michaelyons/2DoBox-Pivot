@@ -42,7 +42,7 @@ function newCard(ideaObject) {
       <h2 class="idea" contenteditable> ${ideaObject.title}</h2>
       <button class="delete-button"></button>
     </aside>
-    <aside>
+    <aside class="body-text">
       <p class="light-text" contenteditable>${ideaObject.body}</p>
     </aside>
     <aside class="footer-text">
@@ -91,6 +91,26 @@ function updateCounter(cardIdea) {
     numCards > 4 ? numCards = 4 : null;
     numCards < 0 ? numCards = 0 : null;
     return numCards;
+}
+
+$('.container-box').on('blur', ('.idea, .title-text'), todoUpdateTitle);
+
+function todoUpdateTitle() {
+  var cardId = $(this).parent('aside').parent("div").attr("id");
+  var id = $(this).closest('section').attr('id');
+  var parsedLocal = JSON.parse(localStorage.getItem(cardId));
+  parsedLocal.title = $(this).text();
+  sendToStringify = localStorage.setItem(cardId, JSON.stringify(parsedLocal));  
+}
+
+$('.container-box').on('blur', ('.light-text, .body-text'), todoUpdateBody);
+
+function todoUpdateBody() {
+  var cardId = $(this).parent('aside').parent("div").attr("id");
+  var id = $(this).closest('section').attr('id');
+  var parsedLocal = JSON.parse(localStorage.getItem(cardId));
+  parsedLocal.body = $(this).text();
+  sendToStringify = localStorage.setItem(cardId, JSON.stringify(parsedLocal));  
 }
 
 function getFromLocalStorage() {
