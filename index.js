@@ -38,7 +38,8 @@ function toggleSaveDisabled() {
   }
 
 function newCard(ideaObject) {
-  $('.card-list').prepend(` <div aria-label="ideas displayed here" id=${ideaObject.id} class="entire-card">
+  var grayCard = ideaObject.completed ? "gray-card" : null;
+  $('.card-list').prepend(` <div aria-label="ideas displayed here" id=${ideaObject.id} class="entire-card ${grayCard}">
     <aside class="title-text">
       <h2 class="idea"> ${ideaObject.title}</h2>
       <button class="delete-button"></button>
@@ -50,10 +51,8 @@ function newCard(ideaObject) {
         <button class="upvote icon"></button>
         <button class="downvote icon"></button>
         <p class="quality-text">quality: ${ideaObject.quality}</p>
+        <button class="marked-complete">Completed</button>
     </aside>
-    <article>
-      <button class="marked-complete">Completed</button>
-    </article>
   </div>`);
     clearInputs();
 };
@@ -112,16 +111,25 @@ function filterCards() {
     $(element).toggle(match);
   })};
 
+  $('.completed-task-btn').on('click', showOnlyCompleted);
 
-  $('.completed-task-btn').on('click', )
+  function showOnlyCompleted() {
+    //irterate ofver the array rather than getting that wierd ass way//
+    $.each(localStorage, function(key, value) {
+      isNaN(this) ? filterFromLocalStorage(this) : null;
+  })}
 
-  function completeMarked(target) {
-    var markedTarget = $(target).parent().parent();
-    console.log(markedTarget);
+  function filterFromLocalStorage(cardObject) {
+    console.log(cardObject);
+    cardObject.completed ? $( ".card-idea" ).prepend(newCard(JSON.parse(cardObject))) : null;
   }
 
-
-  function removeIdea(target) {
-    $(target).parent().remove();
-    localStorage.removeItem([target.parentNode.parentNode.id]);
+  function completeMarked(target) {
+    var markedTarget = $(target).parent().parent()[0];
+    $(markedTarget).toggleClass("gray-card");
+    var completedCard = JSON.parse(localStorage.getItem(markedTarget.id));
+    // completedCard.completed = !completedCard.completed;
+    !completedCard.completed ? completedCard.completed = true : completedCard.completed = false;
+    localStorage.setItem(completedCard.id, JSON.stringify(completedCard));
+    console.log(completedCard.completed);
   };

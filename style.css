@@ -167,6 +167,10 @@ button {
     width: 20px;
 }
 
+.gray-card {
+    background-color: grey;
+}
+
 @media(max-width: 640px){
 
     .card-container {
