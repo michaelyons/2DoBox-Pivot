@@ -18,7 +18,7 @@ $('.card-list').on('click', function(e) {
     e.preventDefault();
   var buttonTarget = e.target.classList;
     if (buttonTarget.contains("upvote") || buttonTarget.contains("downvote")) {
-      changeQuality(e.target);
+      changeImportance(e.target);
     } else if (e.target.classList.contains("delete-button")) {
       removeIdea(e.target);
     } else if (e.target.classList.contains("marked-complete")) {
@@ -51,7 +51,7 @@ function newCard(ideaObject) {
     <aside class="footer-text">
         <button class="upvote icon"></button>
         <button class="downvote icon"></button>
-        <p class="quality-text">quality: ${ideaObject.quality}</p>
+        <p class="importance-text">importance: ${ideaObject.importance}</p>
         <button class="marked-complete">Completed</button>
     </aside>
   </div>`);
@@ -72,28 +72,28 @@ function ideaCreate() {
       title: $('#title-input').val(),
       body: $('#body-input').val(),
       id: Date.now(),
-      quality: "swill",
+      importance: "Normal",
       completed: false
     };
     newCard(ideaObject);
     localStorage.setItem(ideaObject.id, JSON.stringify(ideaObject));
 }
 
-function changeQuality(cardIdea) {
-    var qualityValue = $(cardIdea).siblings()[1];
-    var wordArray = ['swill', 'plausible', 'genius'];
+function changeImportance(cardIdea) {
+    var importanceValue = $(cardIdea).siblings()[1];
+    var wordArray = ['None', 'Low', 'Normal', 'High', 'Critical'];
     var cardId = $(cardIdea).parent().parent("div").attr("id");
     var numCards = updateCounter(cardIdea);
-    $(qualityValue).text("quality: " + wordArray[numCards]);
+    $(importanceValue).text("importance: " + wordArray[numCards]);
     var parsedObject = JSON.parse(localStorage.getItem([cardId]));
-    parsedObject.quality = wordArray[numCards];
+    parsedObject.importance = wordArray[numCards];
     localStorage.setItem([parsedObject.id], JSON.stringify(parsedObject));
 }
  
 function updateCounter(cardIdea) {
   var cardId = $(cardIdea).parent().parent("div").attr("id");
     numCards = $(cardIdea).hasClass('upvote') ? numCards = numCards + 1 : numCards = numCards - 1;
-    numCards > 2 ? numCards = 2 : null;
+    numCards > 4 ? numCards = 4 : null;
     numCards < 0 ? numCards = 0 : null;
     return numCards;
 }
@@ -112,25 +112,25 @@ function filterCards() {
     $(element).toggle(match);
   })};
 
-  $('.completed-task-btn').on('click', showOnlyCompleted);
+  // $('.completed-task-btn').on('click', showOnlyCompleted);
 
-  function showOnlyCompleted() {
-    //irterate over the array rather than getting it that wierd way//
-    $.each(localStorage, function(key, value) {
-      isNaN(this) ? filterFromLocalStorage(this) : null;
-  })};
+  // function showOnlyCompleted() {
+  //   //irterate over the array rather than getting it that wierd way//
+  //   $.each(localStorage, function(key, value) {
+  //     isNaN(this) ? filterFromLocalStorage(this) : null;
+  // })};
 
-  function filterFromLocalStorage(cardObject) {
-    console.log(cardObject);
-    cardObject.completed ? $( ".card-idea" ).prepend(newCard(JSON.parse(cardObject))) : null;
-  }
+  // function filterFromLocalStorage(cardObject) {
+  //   console.log(cardObject);
+  //   cardObject.completed ? $( ".card-idea" ).prepend(newCard(JSON.parse(cardObject))) : null;
+  // }
 
-  function completeMarked(target) {
-    var markedTarget = $(target).parent().parent()[0];
-    $(markedTarget).toggleClass("gray-card");
-    var completedCard = JSON.parse(localStorage.getItem(markedTarget.id));
-    completedCard.completed = !completedCard.completed;
-    !completedCard.completed ? completedCard.completed = true : completedCard.completed = false;
-    localStorage.setItem(completedCard.id, JSON.stringify(completedCard));
-    console.log(completedCard.completed);
-  }
+  // function completeMarked(target) {
+  //   var markedTarget = $(target).parent().parent()[0];
+  //   $(markedTarget).toggleClass("gray-card");
+  //   var completedCard = JSON.parse(localStorage.getItem(markedTarget.id));
+  //   completedCard.completed = !completedCard.completed;
+  //   !completedCard.completed ? completedCard.completed = true : completedCard.completed = false;
+  //   localStorage.setItem(completedCard.id, JSON.stringify(completedCard));
+  //   console.log(completedCard.completed);
+  // }
