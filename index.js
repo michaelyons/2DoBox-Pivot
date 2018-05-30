@@ -5,12 +5,12 @@ $(document).ready(getFromLocalStorage);
 $('.save-btn').on('click', function(e){
     e.preventDefault();
     ideaCreate();
-})
+});
 
 function removeIdea(target) {
     $(target).parent().parent().remove();
     localStorage.removeItem([target.parentNode.parentNode.id]);
-  };
+}
 
 $('#title-input').on('input', toggleSaveDisabled);
 $('#body-input').on('input', toggleSaveDisabled);
@@ -24,7 +24,7 @@ $('.card-list').on('click', function(e) {
     } else if (e.target.classList.contains("marked-complete")) {
       completeMarked(e.target);
     }
-  });
+});
 
 function toggleSaveDisabled() {
   var titleInput = $('#title-input');
@@ -35,7 +35,7 @@ function toggleSaveDisabled() {
     } else {
       saveButton.prop('disabled', false);
     }
-  }
+}
 
 
 function newCard(ideaObject) {
@@ -56,7 +56,7 @@ function newCard(ideaObject) {
     </aside>
   </div>`);
     clearInputs();
-};
+}
 
 function clearInputs() {
   var titleInput = $('#title-input');
@@ -77,7 +77,7 @@ function ideaCreate() {
     };
     newCard(ideaObject);
     localStorage.setItem(ideaObject.id, JSON.stringify(ideaObject));
-   };
+}
 
 function changeQuality(cardIdea) {
     var qualityValue = $(cardIdea).siblings()[1];
@@ -88,7 +88,7 @@ function changeQuality(cardIdea) {
     var parsedObject = JSON.parse(localStorage.getItem([cardId]));
     parsedObject.quality = wordArray[numCards];
     localStorage.setItem([parsedObject.id], JSON.stringify(parsedObject));
-  };
+}
  
 function updateCounter(cardIdea) {
   var cardId = $(cardIdea).parent().parent("div").attr("id");
@@ -118,7 +118,7 @@ function filterCards() {
     //irterate over the array rather than getting it that wierd way//
     $.each(localStorage, function(key, value) {
       isNaN(this) ? filterFromLocalStorage(this) : null;
-  })}
+  })};
 
   function filterFromLocalStorage(cardObject) {
     console.log(cardObject);
@@ -129,8 +129,8 @@ function filterCards() {
     var markedTarget = $(target).parent().parent()[0];
     $(markedTarget).toggleClass("gray-card");
     var completedCard = JSON.parse(localStorage.getItem(markedTarget.id));
-    // completedCard.completed = !completedCard.completed;
+    completedCard.completed = !completedCard.completed;
     !completedCard.completed ? completedCard.completed = true : completedCard.completed = false;
     localStorage.setItem(completedCard.id, JSON.stringify(completedCard));
     console.log(completedCard.completed);
-  };
+  }

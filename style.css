@@ -80,7 +80,7 @@ input {
     margin: auto;
     position: relative;
     width: 45%;
-    border-bottom:
+    /* border-bottom: */
 }
 
 .card {
@@ -186,6 +186,7 @@ button {
 
 .icon {
     margin: 0 10px;
+}
 
 .gray-card {
     background-color: grey;
