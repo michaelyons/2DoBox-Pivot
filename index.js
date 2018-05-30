@@ -10,7 +10,7 @@ $('.save-btn').on('click', function(e){
 function removeIdea(target) {
     $(target).parent().parent().remove();
     localStorage.removeItem([target.parentNode.parentNode.id]);
-}
+};
 
 $('#title-input').on('input', toggleSaveDisabled);
 $('#body-input').on('input', toggleSaveDisabled);
@@ -19,7 +19,7 @@ $('.card-list').on('click', function(e) {
   var buttonTarget = e.target.classList;
     if (buttonTarget.contains("upvote") || buttonTarget.contains("downvote")) {
       changeQuality(e.target);
-    } else if (e.target.classList.contains("delete")) {
+    } else if (e.target.classList.contains("delete-button")) {
       removeIdea(e.target);
     } else if (e.target.classList.contains("marked-complete")) {
       completeMarked(e.target);
