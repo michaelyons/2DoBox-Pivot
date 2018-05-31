@@ -1,7 +1,7 @@
 var numCards = 0;
 $(document).ready(getFromLocalStorage);
 
-// EVENT LISTENERS //
+//** EVENT LISTENERS **//
 
 $('.save-btn').on('click', function(e){
     e.preventDefault();
@@ -22,6 +22,7 @@ $('.container-box').on('blur', ('.idea, .title-text'), todoUpdateTitle);
 $('.container-box').on('blur', ('.light-text, .body-text'), todoUpdateBody);
 $('#search-input').on('keyup', filterCards);
 
+//** FUNCTIONS **//
 
 function removeIdea(target) {
     $(target).parent().parent().remove();
