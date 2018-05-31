@@ -116,7 +116,7 @@ function todoUpdateBody() {
 function getFromLocalStorage() {
   $.each(localStorage, function(key, value) {
     isNaN(this) ?  $( ".card-idea" ).prepend(newCard(JSON.parse(this))) : null;
-})};
+})}
 
 function filterCards() {
     var searchTerm =$(this).val().toLowerCase();
