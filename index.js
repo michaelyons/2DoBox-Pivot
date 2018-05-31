@@ -1,17 +1,12 @@
 var numCards = 0;
-
 $(document).ready(getFromLocalStorage);
+
+//** EVENT LISTENERS **//
 
 $('.save-btn').on('click', function(e){
     e.preventDefault();
     ideaCreate();
 });
-
-function removeIdea(target) {
-    $(target).parent().parent().remove();
-    localStorage.removeItem([target.parentNode.parentNode.id]);
-}
-
 $('#title-input').on('input', toggleSaveDisabled);
 $('#body-input').on('input', toggleSaveDisabled);
 $('.card-list').on('click', function(e) {
@@ -23,6 +18,16 @@ $('.card-list').on('click', function(e) {
       removeIdea(e.target);
     }
 });
+$('.container-box').on('blur', ('.idea, .title-text'), todoUpdateTitle);
+$('.container-box').on('blur', ('.light-text, .body-text'), todoUpdateBody);
+$('#search-input').on('keyup', filterCards);
+
+//** FUNCTIONS **//
+
+function removeIdea(target) {
+    $(target).parent().parent().remove();
+    localStorage.removeItem([target.parentNode.parentNode.id]);
+};
 
 function toggleSaveDisabled() {
   var titleInput = $('#title-input');
@@ -34,7 +39,6 @@ function toggleSaveDisabled() {
       saveButton.prop('disabled', false);
     }
 }
-
 
 function newCard(ideaObject) {
   $('.card-list').prepend(` <div aria-label="ideas displayed here" id=${ideaObject.id} class="entire-card card">
@@ -93,8 +97,6 @@ function updateCounter(cardIdea) {
     return numCards;
 }
 
-$('.container-box').on('blur', ('.idea, .title-text'), todoUpdateTitle);
-
 function todoUpdateTitle() {
   var cardId = $(this).parent('aside').parent("div").attr("id");
   var id = $(this).closest('section').attr('id');
@@ -102,8 +104,6 @@ function todoUpdateTitle() {
   parsedLocal.title = $(this).text();
   sendToStringify = localStorage.setItem(cardId, JSON.stringify(parsedLocal));  
 }
-
-$('.container-box').on('blur', ('.light-text, .body-text'), todoUpdateBody);
 
 function todoUpdateBody() {
   var cardId = $(this).parent('aside').parent("div").attr("id");
@@ -118,7 +118,6 @@ function getFromLocalStorage() {
     isNaN(this) ?  $( ".card-idea" ).prepend(newCard(JSON.parse(this))) : null;
 })}
 
-$('#search-input').on('keyup', filterCards);
 function filterCards() {
     var searchTerm =$(this).val().toLowerCase();
     $('.entire-card').each(function(index, element){
