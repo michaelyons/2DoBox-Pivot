@@ -10,7 +10,7 @@ $('.save-btn').on('click', function(e){
 function removeIdea(target) {
     $(target).parent().parent().remove();
     localStorage.removeItem([target.parentNode.parentNode.id]);
-};
+}
 
 $('#title-input').on('input', toggleSaveDisabled);
 $('#body-input').on('input', toggleSaveDisabled);
@@ -116,7 +116,7 @@ function todoUpdateBody() {
 function getFromLocalStorage() {
   $.each(localStorage, function(key, value) {
     isNaN(this) ?  $( ".card-idea" ).prepend(newCard(JSON.parse(this))) : null;
-})};
+})}
 
 $('#search-input').on('keyup', filterCards);
 function filterCards() {

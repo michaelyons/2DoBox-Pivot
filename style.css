@@ -27,10 +27,6 @@ h1{
     margin-bottom:  30px;
 }
 
-.idea {
-    color: #6D6E71;
-}
-
 #title-input {
     align-items: center;
     display: flex;
@@ -77,10 +73,10 @@ input {
 }
 
 .card-container {
+    border-bottom: 0.15rem solid #6D6E71;
     margin: auto;
     position: relative;
     width: 45%;
-    border-bottom: 0.15rem solid #6D6E71;
 }
 
 .card-list {
@@ -197,10 +193,9 @@ button {
 }
 
 .marked-complete {
-    margin-left: 4rem;
     color: #939598;
     font-family: 'Open Sans', sans-serif;
-    /* margin: 0; */
+    margin-left: 4rem;
 }
 
 .gray-card {
